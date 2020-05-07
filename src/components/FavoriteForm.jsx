@@ -2,80 +2,117 @@ import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { AppContext } from "../context/AppContext";
 import DeleteIcon from "../svg/delete.svg";
-import { DateTime } from "luxon";
+import { checkForArrayError, favoriteSitesSchema } from "../validations";
+import { isEmpty } from "lodash";
+
+const recurrencyValues = Array.from(Array(28)).map((_, i) => i + 1);
 
 export default function FavoriteForm() {
-  const { register, handleSubmit } = useForm();
-  const { favorites, setFavorites, setEmptyField } = useContext(AppContext);
+  const {
+    favoriteSites,
+    onSubmit,
+    addFavorite,
+    removeFavorite,
+    handleRecurrence,
+    toRelative,
+  } = useContext(AppContext);
 
-  const onSubmit = ({ fav }) => {
-    console.log(fav);
-  };
+  const { register, handleSubmit, errors } = useForm({
+    validationSchema: favoriteSitesSchema,
+  });
 
-  const addFavorite = () => {
-    setFavorites((prev) => [...prev, setEmptyField]);
-  };
-
-  const removeFavorite = (title) => () => {
-    setFavorites((prev) => [...prev.filter((item) => item.title !== title)]);
-  };
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="row">
-        <h3 className="three columns">Titre</h3>
-        <h3 className="four columns">URL</h3>
-        <h3 className="three columns">Rappel</h3>
+        <h4 className="three columns">Titre</h4>
+        <h4 className="four columns">URL</h4>
+        <h4 className="two columns">Récurrence</h4>
       </div>
-      {favorites.map((fav, index) => {
-        const fieldName = `fav[${index}]`;
-        console.log('fav.start.endOf("day")', fav.start.endOf("day"));
+      {favoriteSites.map((fav, index) => {
+        const fieldName = `favorites[${index}]`;
+        const relativeStr = toRelative(fav.recurrence);
         return (
-          <fieldset name={fieldName} key={fieldName}>
-            <div className="row">
-              <label className="three columns">
-                <input
-                  className="u-full-width"
-                  type="text"
-                  id={`title${index}`}
-                  name={`${fieldName}.title`}
-                  defaultValue={fav.title}
-                  ref={register}
-                />
-              </label>
-              <label className="four columns">
-                <input
-                  className="u-full-width"
-                  type="text"
-                  id={`url${index}`}
-                  name={`${fieldName}.url`}
-                  defaultValue={fav.url}
-                  ref={register}
-                />
-              </label>
-              <label className="three columns">
-                <select className="u-full-width" defaultValue={fav.recurrence}>
-                  <option value="daily">Journalier</option>
-                  <option value="weekly">Hebdomadaire</option>
-                  <option value="bi-monthly">Bi-mensuel</option>
-                  <option value="monthly">Mensuel</option>
-                </select>
-              </label>
-              {/* <label className="one columns">{}</label> */}
-              <label className="one columns">
-                <img
-                  src={DeleteIcon}
-                  alt="Delete Icon"
-                  onClick={removeFavorite(fav.title)}
-                />
-              </label>
-            </div>
-          </fieldset>
+          <div
+            className="row field-form"
+            key={index}
+            style={{
+              display: "flex",
+              alignItems: "baseline",
+            }}
+          >
+            <label className="three columns">
+              <input
+                className="u-full-width"
+                type="text"
+                id={fav.id}
+                name={`${fieldName}.title`}
+                defaultValue={fav.title}
+                ref={register}
+              />
+              {checkForArrayError({
+                errors,
+                index,
+                fieldArray: "favorites",
+                field: "title",
+              })}
+            </label>
+            <label className="four columns">
+              <input
+                className="u-full-width"
+                type="text"
+                name={`${fieldName}.url`}
+                defaultValue={fav.url}
+                ref={register}
+              />
+              {checkForArrayError({
+                errors,
+                index,
+                fieldArray: "favorites",
+                field: "url",
+              })}
+            </label>
+            <label className="one columns">
+              <select
+                name={`${fieldName}.recurrence`}
+                defaultValue={fav.recurrence}
+                id={`rec-select_${index}`}
+                onChange={handleRecurrence}
+                ref={register}
+              >
+                {recurrencyValues.map((n) => (
+                  <option key={n} value={n}>
+                    {n}
+                  </option>
+                ))}
+              </select>
+              {checkForArrayError({
+                errors,
+                index,
+                fieldArray: "favorites",
+                field: "recurrence",
+              })}
+            </label>
+            <label className="two columns">{relativeStr}</label>
+            <label className="one columns">
+              <img
+                style={{ cursor: "pointer" }}
+                src={DeleteIcon}
+                alt="Delete Icon"
+                onClick={removeFavorite(fav.title)}
+              />
+            </label>
+          </div>
         );
       })}
-      <button type="button" onClick={addFavorite}>
+      <button
+        type="button"
+        onClick={addFavorite}
+        disabled={!isEmpty(errors)}
+        style={{ marginRight: "20px" }}
+      >
         Ajouter
       </button>
-      <input type="submit" value="Valider" />
+      {isEmpty(errors) && <input type="submit" value="Valider" />}
     </form>
   );
 }

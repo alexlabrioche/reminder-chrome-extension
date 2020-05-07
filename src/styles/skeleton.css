@@ -331,6 +331,11 @@ input[type="button"].button-primary:focus {
   border-color: #1eaedb;
 }
 
+button[disabled] {
+  color: #666;
+  border: 1px solid #444;
+}
+
 /* Forms
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 input[type="email"],
