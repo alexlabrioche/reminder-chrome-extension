@@ -1,12 +1,12 @@
 import React from "react";
 import FavoriteForm from "./FavoriteForm";
-import LocaleForm from "./LocaleForm";
+import Preferences from "./Preferences";
 
 export default function Settings() {
   return (
-    <div className="container">
+    <div className="container settings">
+      <Preferences />
       <FavoriteForm />
-      <LocaleForm />
     </div>
   );
 }

@@ -1,29 +1,6 @@
-/*
-* Skeleton V2.0.4
-* Copyright 2014, Dave Gamache
-* www.getskeleton.com
-* Free to use under the MIT license.
-* http://www.opensource.org/licenses/mit-license.php
-* 12/29/2014
-*/
+import { createGlobalStyle } from "styled-components";
 
-/* Table of contents
-––––––––––––––––––––––––––––––––––––––––––––––––––
-- Grid
-- Base Styles
-- Typography
-- Links
-- Buttons
-- Forms
-- Lists
-- Code
-- Tables
-- Spacing
-- Utilities
-- Clearing
-- Media Queries
-*/
-
+export default createGlobalStyle`
 /* Grid
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 .container {
@@ -41,7 +18,6 @@
   box-sizing: border-box;
 }
 
-/* For devices larger than 400px */
 @media (min-width: 400px) {
   .container {
     width: 85%;
@@ -49,7 +25,6 @@
   }
 }
 
-/* For devices larger than 550px */
 @media (min-width: 550px) {
   .container {
     width: 80%;
@@ -113,7 +88,6 @@
     width: 48%;
   }
 
-  /* Offsets */
   .offset-by-one.column,
   .offset-by-one.columns {
     margin-left: 8.66666666667%;
@@ -174,25 +148,21 @@
   }
 }
 
-/* Base Styles
-–––––––––––––––––––––––––––––––––––––––––––––––––– */
-/* NOTE
-html is set to 62.5% so that all the REM measurements throughout Skeleton
-are based on 10px sizing. So basically 1.5rem = 15px :) */
 html {
   font-size: 62.5%;
 }
 body {
-  font-size: 1.5em; /* currently ems cause chrome bug misinterpreting rems on body element */
+  font-size: 1.5em;
   line-height: 1.6;
   font-weight: 400;
   font-family: "Raleway", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial,
     sans-serif;
-  color: #222;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: ${(p) => p.theme.baseFont};
+  background: ${(p) => p.theme.background};
 }
 
-/* Typography
-–––––––––––––––––––––––––––––––––––––––––––––––––– */
 h1,
 h2,
 h3,
@@ -259,14 +229,52 @@ h6 {
 p {
   margin-top: 0;
 }
+/* Layouts
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+.app {
+  font-family: "Source Code Pro", monospace;
+  display: flex;
+  height: 100vh;
+  flex-direction: column;
+}
+.menu {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2rem;
+}
+
+.home {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.preferences {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: baseline;
+}
+.settings {
+  height: 100%;
+  width: 100%;
+  padding: 2rem 0;
+  display: flex;
+  flex-direction: column;
+}
 
 /* Links
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 a {
-  color: #1eaedb;
+  color: ${(p) => p.theme.primary};
 }
 a:hover {
-  color: #0fa0ce;
+  color: ${(p) => p.theme.hovered};
 }
 
 /* Buttons
@@ -289,7 +297,7 @@ input[type="button"] {
   white-space: nowrap;
   background-color: transparent;
   border-radius: 4px;
-  border: 1px solid #bbb;
+  border: 1px solid ${(p) => p.theme.buttonBorder};
   cursor: pointer;
   box-sizing: border-box;
 }
@@ -303,8 +311,8 @@ button:focus,
 input[type="submit"]:focus,
 input[type="reset"]:focus,
 input[type="button"]:focus {
-  color: #333;
-  border-color: #888;
+  color: ${(p) => p.theme.buttonColor};
+  border-color: ${(p) => p.theme.buttonFocusBorder};
   outline: 0;
 }
 .button.button-primary,
@@ -312,9 +320,9 @@ button.button-primary,
 input[type="submit"].button-primary,
 input[type="reset"].button-primary,
 input[type="button"].button-primary {
-  color: #fff;
-  background-color: #33c3f0;
-  border-color: #33c3f0;
+  color: ${(p) => p.theme.buttonColor};
+  background-color: ${(p) => p.theme.primary};
+  border-color: ${(p) => p.theme.primary};
 }
 .button.button-primary:hover,
 button.button-primary:hover,
@@ -326,16 +334,15 @@ button.button-primary:focus,
 input[type="submit"].button-primary:focus,
 input[type="reset"].button-primary:focus,
 input[type="button"].button-primary:focus {
-  color: #fff;
-  background-color: #1eaedb;
-  border-color: #1eaedb;
+  color: ${(p) => p.theme.buttonColor};
+  background-color: ${(p) => p.theme.hovered};
+  border-color: ${(p) => p.theme.hovered};
 }
 
 button[disabled] {
-  color: #666;
-  border: 1px solid #444;
+  color: ${(p) => p.theme.disabledButtonColor};
+  border: 1px solid ${(p) => p.theme.disabledButtonBorder};
 }
-
 /* Forms
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 input[type="email"],
@@ -350,7 +357,7 @@ select {
   height: 38px;
   padding: 6px 10px; /* The 6px vertically centers text on FF, ignored by Webkit */
   background-color: transparent;
-  border: 1px solid #d1d1d1;
+  border: 1px solid ${(p) => p.theme.selectBorder};
   border-radius: 4px;
   box-shadow: none;
   box-sizing: border-box;
@@ -382,7 +389,7 @@ input[type="url"]:focus,
 input[type="password"]:focus,
 textarea:focus,
 select:focus {
-  border: 1px solid #33c3f0;
+  border: 1px solid ${(p) => p.theme.primary};
   outline: 0;
 }
 label,
@@ -398,6 +405,9 @@ fieldset {
 input[type="checkbox"],
 input[type="radio"] {
   display: inline;
+  margin-left: 2rem;
+  margin-right: 0.5rem;
+
 }
 label > .label-body {
   display: inline-block;
@@ -429,30 +439,13 @@ li {
   margin-bottom: 1rem;
 }
 
-/* Code
-–––––––––––––––––––––––––––––––––––––––––––––––––– */
-code {
-  padding: 0.2rem 0.5rem;
-  margin: 0 0.2rem;
-  font-size: 90%;
-  white-space: nowrap;
-  background: #f1f1f1;
-  border: 1px solid #e1e1e1;
-  border-radius: 4px;
-}
-pre > code {
-  display: block;
-  padding: 1rem 1.5rem;
-  white-space: pre;
-}
-
 /* Tables
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 th,
 td {
   padding: 12px 15px;
   text-align: left;
-  border-bottom: 1px solid #e1e1e1;
+  border-bottom: 1px solid ${(p) => p.theme.tableBorder};
 }
 th:first-child,
 td:first-child {
@@ -510,11 +503,20 @@ hr {
   margin-top: 3rem;
   margin-bottom: 3.5rem;
   border-width: 0;
-  border-top: 1px solid #e1e1e1;
+  border-top: 1px solid ${(p) => p.theme.tableBorder};
 }
-
-/* Clearing
-–––––––––––––––––––––––––––––––––––––––––––––––––– */
+.icon-btn {
+  cursor: pointer;
+}
+.fav-item {
+  cursor: pointer;
+}
+.fav-item:hover {
+  text-decoration: underline 1px ${(p) => p.theme.baseFont};
+}
+.app-title {
+  margin: 0;
+}
 
 /* Self Clearing Goodness */
 .container:after,
@@ -524,32 +526,4 @@ hr {
   display: table;
   clear: both;
 }
-
-/* Media Queries
-–––––––––––––––––––––––––––––––––––––––––––––––––– */
-/*
-Note: The best way to structure the use of media queries is to create the queries
-near the relevant code. For example, if you wanted to change the styles for buttons
-on small devices, paste the mobile query code up in the buttons section and style it
-there.
-*/
-
-/* Larger than mobile */
-@media (min-width: 400px) {
-}
-
-/* Larger than phablet (also point when grid becomes active) */
-@media (min-width: 550px) {
-}
-
-/* Larger than tablet */
-@media (min-width: 750px) {
-}
-
-/* Larger than desktop */
-@media (min-width: 1000px) {
-}
-
-/* Larger than Desktop HD */
-@media (min-width: 1200px) {
-}
+`;

@@ -1,25 +1,23 @@
 import React, { useContext } from "react";
-import styled from "styled-components";
+import { ThemeProvider } from "styled-components";
+
 import Home from "./components/Home";
 import Menu from "./components/Menu";
 import Settings from "./components/Settings";
 import { AppContext } from "./context/AppContext";
-
-const StyledApp = styled.div`
-  color: #f3f3f3;
-  font-family: "Source Code Pro", monospace;
-  display: flex;
-  height: 100vh;
-  flex-direction: column;
-`;
+import { dark, light } from "./styles/theme";
+import GlobalStyle from "./styles/global";
 
 function App() {
-  const { showSettings } = useContext(AppContext);
+  const { showSettings, darkTheme } = useContext(AppContext);
   return (
-    <StyledApp>
-      <Menu />
-      {showSettings ? <Settings /> : <Home />}
-    </StyledApp>
+    <ThemeProvider theme={darkTheme ? dark : light}>
+      <div className="app">
+        <GlobalStyle />
+        <Menu />
+        {showSettings ? <Settings /> : <Home />}
+      </div>
+    </ThemeProvider>
   );
 }
 

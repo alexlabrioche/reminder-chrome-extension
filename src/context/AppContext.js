@@ -1,35 +1,13 @@
 import React, { createContext, useState, useEffect } from "react";
 import { DateTime } from "luxon";
 import id from "uuid/v4";
+import useLocalStorage from "../hooks/useLocalStorage";
+import { exampleData, addEmptyField } from "../data/favoriteSites";
 
-export const AppContext = createContext();
+const isDev = process.env.NODE_ENV === "development";
 
-const initial = [
-  {
-    id: id(),
-    title: "GMail",
-    url: "https://gmail.com",
-    recurrence: 1,
-    visited: false,
-  },
-  {
-    id: id(),
-    title: "Medium",
-    url: "https://medium.com",
-    recurrence: 10,
-    visited: false,
-  },
-  {
-    id: id(),
-    title: "Prout",
-    url: "https://prout.com",
-    recurrence: 14,
-    visited: false,
-  },
-];
-
-const now = (locale = "fr") =>
-  DateTime.local().toLocaleString({
+function now(locale = "fr") {
+  return DateTime.local().toLocaleString({
     weekday: "long",
     month: "long",
     day: "2-digit",
@@ -37,39 +15,37 @@ const now = (locale = "fr") =>
     minute: "2-digit",
     locale,
   });
+}
 
-const dayStart = () => DateTime.local().startOf("day").toISO();
-
-const addEmptyField = () => ({
-  id: id(),
-  title: "",
-  url: "",
-  recurrence: "1",
-});
-
-const enhanceFormData = (favArray) => {
+function enhanceFormData(favArray) {
+  const start = () => DateTime.local().startOf("day").toISO();
   return favArray.map((fav) => ({
     ...fav,
     id: id(),
-    start: dayStart(),
+    start,
     remindInISO: DateTime.local()
       .startOf("day")
       .plus({ days: fav.recurrence })
       .toISO(),
     visited: false,
   }));
-};
-const toRelativeLocale = (days, loc) =>
-  DateTime.local().plus({ days }).toRelativeCalendar({ locale: loc });
+}
+
+function toRelativeLocale(days, loc) {
+  return DateTime.local().plus({ days }).toRelativeCalendar({ locale: loc });
+}
+
+export const AppContext = createContext();
 
 export default function AppProvider({ children }) {
-  const [locale, setLocale] = useState("fr");
-  const [favoriteSites, setFavoriteSites] = useState(initial);
-  const [showSettings, setShowSettings] = useState(true);
+  const [locale, setLocale] = useLocalStorage("country", "fr");
+  const [stored, setStored] = useLocalStorage("favzz", exampleData);
+  const [favoriteSites, setFavoriteSites] = useState(stored);
+  const [showSettings, setShowSettings] = useState(isDev);
   const [time, setTime] = useState(now(locale));
   const toggleSettings = () => setShowSettings(!showSettings);
-
   const localeRef = React.useRef();
+  const [darkTheme, setDarkTheme] = useLocalStorage("theme", true);
 
   useEffect(() => {
     localeRef.current !== locale && setTime(now(locale));
@@ -81,8 +57,9 @@ export default function AppProvider({ children }) {
 
   const onSubmit = (data) => {
     const enhancedFavoriteSites = enhanceFormData(data.favorites);
-    console.log("enhancedFavoriteSites", enhancedFavoriteSites);
     setFavoriteSites(enhancedFavoriteSites);
+    setStored(enhancedFavoriteSites);
+    toggleSettings();
   };
 
   const addFavorite = () => {
@@ -126,6 +103,9 @@ export default function AppProvider({ children }) {
         removeFavorite,
         handleRecurrence,
         handleLocale,
+        darkTheme,
+        setDarkTheme,
+        locale,
       }}
     >
       {children}

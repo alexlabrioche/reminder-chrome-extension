@@ -1,16 +1,15 @@
 {
   "manifest_version": 2,
-  "name": "-Reminder-",
+  "name": "Reminder",
   "author": "alexlabrioche",
   "version": "0.1",
-  "description": "Replace new tab screen with minimalist scheduled reminder to browse favorite website",
+  "description": "Replace new tab screen with minimalist scheduled reminder to browse your favorite websites",
   "icons": {
-    "16": "16.png",
-    "48": "48.png",
-    "128": "128.png"
+    "128": "square.png"
   },
   "chrome_url_overrides": {
     "newtab": "index.html"
   },
-  "permissions": ["storage"]
+  "content_security_policy": "script-src 'self' 'sha256-GgRxrVOKNdB4LrRsVPDSbzvfdV4UqglmviH9GoBJ5jk'; object-src 'self'",
+  "permissions": ["storage", "tabs", "topSites"]
 }

@@ -23,11 +23,6 @@ export default function FavoriteForm() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="row">
-        <h4 className="three columns">Titre</h4>
-        <h4 className="four columns">URL</h4>
-        <h4 className="two columns">Récurrence</h4>
-      </div>
       {favoriteSites.map((fav, index) => {
         const fieldName = `favorites[${index}]`;
         const relativeStr = toRelative(fav.recurrence);
@@ -95,7 +90,7 @@ export default function FavoriteForm() {
             <label className="two columns">{relativeStr}</label>
             <label className="one columns">
               <img
-                style={{ cursor: "pointer" }}
+                className="icon-btn"
                 src={DeleteIcon}
                 alt="Delete Icon"
                 onClick={removeFavorite(fav.title)}
@@ -108,11 +103,13 @@ export default function FavoriteForm() {
         type="button"
         onClick={addFavorite}
         disabled={!isEmpty(errors)}
-        style={{ marginRight: "20px" }}
+        style={{ marginRight: "30px" }}
       >
         Ajouter
       </button>
-      {isEmpty(errors) && <input type="submit" value="Valider" />}
+      {isEmpty(errors) && (
+        <input type="submit" className="button-primary" value="Valider" />
+      )}
     </form>
   );
 }

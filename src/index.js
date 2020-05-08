@@ -1,17 +1,16 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./styles/normalize.css";
-import "./styles/skeleton.css";
-import "./styles/index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
-import Provider from "./context/AppContext";
+import AppProvider from "./context/AppContext";
+
+import "./styles/normalize.css";
 
 ReactDOM.render(
   <React.StrictMode>
-    <Provider>
+    <AppProvider>
       <App />
-    </Provider>
+    </AppProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );
