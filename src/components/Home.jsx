@@ -3,12 +3,12 @@ import FavoriteItem from "./FavoriteItem";
 import { useFavoritesContext } from "../features/favorites/favoritesContext";
 
 export default function Home() {
-  const { toDisplay } = useFavoritesContext();
+  const { favorites } = useFavoritesContext();
   return (
     <div className="home">
-      {toDisplay.length > 0 ? (
+      {favorites.length > 0 ? (
         <ol>
-          {toDisplay.map((fav, index) => (
+          {favorites.map((fav, index) => (
             <FavoriteItem key={index} {...fav} />
           ))}
         </ol>

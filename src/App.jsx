@@ -9,13 +9,13 @@ import GlobalStyle from "./styles/global";
 import { useUIContext } from "./features/ui/UIContext";
 
 function App() {
-  const { showSettings, darkTheme } = useUIContext();
+  const { settings, darkTheme } = useUIContext();
   return (
     <ThemeProvider theme={darkTheme ? dark : light}>
       <div className="app">
         <GlobalStyle />
         <Menu />
-        {showSettings ? <Settings /> : <Home />}
+        {settings ? <Settings /> : <Home />}
       </div>
     </ThemeProvider>
   );

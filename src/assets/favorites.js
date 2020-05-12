@@ -1,15 +1,6 @@
 import id from "uuid/v4";
 
-export function addEmptyField() {
-  return {
-    id: id(),
-    title: "",
-    url: "",
-    recurrence: 1,
-  };
-}
-
-export const exampleData = [
+export default [
   {
     id: id(),
     title: "GMail",

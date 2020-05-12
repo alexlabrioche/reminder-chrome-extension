@@ -1,50 +1,19 @@
-import React, { createContext, useState, useEffect, useContext } from "react";
-import { DateTime } from "luxon";
-import id from "uuid/v4";
+import React, { createContext, useState, useContext } from "react";
 import useLocalStorage from "../../hooks/useLocalStorage";
-import { exampleData, addEmptyField } from "../../assets/favoriteSites";
+import exampleData from "../../assets/favorites";
+import { addEmptyField, favToDisplay, preSave } from "./favoritesHandlers";
 
 // const isDev = process.env.NODE_ENV === "development";
 
-function enhanceFormData(favArray) {
-  const start = () => DateTime.local().startOf("day").toISO();
-  return favArray.map((fav) => ({
-    ...fav,
-    id: id(),
-    start,
-    remindIn: DateTime.local()
-      .startOf("day")
-      .plus({ days: fav.recurrence })
-      .toMillis(),
-    visited: false,
-  }));
-}
-
 export const FavoritesCtx = createContext();
-
-function favToDisplay(favorites) {
-  const today = DateTime.local().startOf("day").toMillis();
-  let toDisplay = [];
-  favorites.forEach((fav) => {
-    if (fav.remindIn <= today && fav.visited === false) {
-      toDisplay.push(fav);
-    }
-  });
-  return toDisplay.slice(0, 3);
-}
-
 export const useFavoritesContext = () => useContext(FavoritesCtx);
 
 export default function FavoritesProvider({ children }) {
   const [stored, setStored] = useLocalStorage("favzz", exampleData);
   const [favoriteSites, setFavoriteSites] = useState(stored);
-  const [toDisplay, setToDisplay] = useState(favToDisplay(favoriteSites));
-  console.log("FavoritesProvider stored", stored);
 
-  useEffect(() => {
-    console.log("🔥 useEffect FavoritesProvider");
-    setToDisplay(favToDisplay(favoriteSites));
-  }, [favoriteSites]);
+  console.log("stored", stored);
+  const toDisplay = () => favToDisplay(favoriteSites);
 
   const addFavorite = () => {
     setFavoriteSites((prev) => [...prev, addEmptyField()]);
@@ -70,18 +39,23 @@ export default function FavoritesProvider({ children }) {
     window.open(url);
   };
 
+  const setFavorites = (data) => {
+    const newFavorites = preSave(data.favorites);
+    setFavoriteSites(newFavorites);
+    setStored(newFavorites);
+  };
+
   return (
     <FavoritesCtx.Provider
       value={{
-        favoriteSites,
-        toDisplay,
+        allFavorites: favoriteSites,
+        favorites: toDisplay(),
         addFavorite,
         removeFavorite,
         handleRecurrence,
         visitFavorite,
-        enhanceFormData,
-        setStored,
-        setFavoriteSites,
+        preSave,
+        setFavorites,
       }}
     >
       {children}

@@ -3,11 +3,16 @@ import countries from "../assets/countries";
 import { useUIContext } from "../features/ui/UIContext";
 
 export default function LocaleForm() {
-  const { handleLocale, darkTheme, setDarkTheme, locale } = useUIContext();
+  const { setLocale, darkTheme, setDarkTheme, locale } = useUIContext();
+  console.log("locale", locale);
   return (
     <div className="preferences">
       <label>
-        <select name={`locale`} defaultValue={locale} onChange={handleLocale}>
+        <select
+          name={`locale`}
+          defaultValue={locale}
+          onChange={(e) => setLocale(e.target.value)}
+        >
           {countries.map(({ name, alpha2, id }) => (
             <option key={id} value={alpha2}>
               {name}

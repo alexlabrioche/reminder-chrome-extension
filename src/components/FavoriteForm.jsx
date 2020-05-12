@@ -11,13 +11,11 @@ const recurrencyValues = Array.from(Array(28)).map((_, i) => i + 1);
 
 export default function FavoriteForm() {
   const {
-    favoriteSites,
+    allFavorites,
     addFavorite,
     removeFavorite,
     handleRecurrence,
-    enhanceFormData,
-    setFavoriteSites,
-    setStored,
+    setFavorites,
   } = useFavoritesContext();
 
   const { toRelative, toggleSettings } = useUIContext();
@@ -27,15 +25,13 @@ export default function FavoriteForm() {
   });
 
   const onSubmit = (data) => {
-    const enhancedFavoriteSites = enhanceFormData(data.favorites);
-    setFavoriteSites(enhancedFavoriteSites);
-    setStored(enhancedFavoriteSites);
+    setFavorites(data);
     toggleSettings();
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      {favoriteSites.map((fav, index) => {
+      {allFavorites.map((fav, index) => {
         const fieldName = `favorites[${index}]`;
         const relativeStr = toRelative(fav.recurrence);
         return (
@@ -106,11 +102,12 @@ export default function FavoriteForm() {
           </div>
         );
       })}
+
       <button
         type="button"
         onClick={addFavorite}
         disabled={!isEmpty(errors)}
-        style={{ marginRight: "30px" }}
+        style={{ marginRight: "30px", marginTop: "30px" }}
       >
         Ajouter
       </button>
