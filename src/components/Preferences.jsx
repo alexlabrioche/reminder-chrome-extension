@@ -1,11 +1,9 @@
 import React, { useContext } from "react";
-import { AppContext } from "../context/AppContext";
-import countries from "../data/countries";
+import countries from "../assets/countries";
+import { UICtx } from "../features/ui/UIContext";
 
 export default function LocaleForm() {
-  const { handleLocale, darkTheme, setDarkTheme, locale } = useContext(
-    AppContext
-  );
+  const { handleLocale, darkTheme, setDarkTheme, locale } = useContext(UICtx);
   return (
     <div className="preferences">
       <label>

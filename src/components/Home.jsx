@@ -1,26 +1,19 @@
 import React, { useContext } from "react";
-import { AppContext } from "../context/AppContext";
-
-function FavoriteItem({ url, title }) {
-  return (
-    <li className="fav-item" onClick={() => window.open(url)}>
-      {title}
-    </li>
-  );
-}
+import FavoriteItem from "./FavoriteItem";
+import { FavoritesCtx } from "../features/favorites/favoritesContext";
 
 export default function Home() {
-  const { favoriteSites } = useContext(AppContext);
+  const { toDisplay } = useContext(FavoritesCtx);
   return (
     <div className="home">
-      {favoriteSites ? (
+      {toDisplay.length > 0 ? (
         <ol>
-          {favoriteSites.map((fav, index) => (
+          {toDisplay.map((fav, index) => (
             <FavoriteItem key={index} {...fav} />
           ))}
         </ol>
       ) : (
-        <h6>Rien à visiter pour le moment...</h6>
+        <h6>Aucun favoris à visiter pour le moment...</h6>
       )}
     </div>
   );

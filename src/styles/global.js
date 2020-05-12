@@ -505,7 +505,7 @@ hr {
   border-width: 0;
   border-top: 1px solid ${(p) => p.theme.tableBorder};
 }
-.icon-btn {
+.svg-icon {
   cursor: pointer;
 }
 .fav-item {

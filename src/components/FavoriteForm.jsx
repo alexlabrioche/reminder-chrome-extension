@@ -1,25 +1,37 @@
 import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
-import { AppContext } from "../context/AppContext";
-import DeleteIcon from "../svg/delete.svg";
-import { checkForArrayError, favoriteSitesSchema } from "../validations";
 import { isEmpty } from "lodash";
+
+import { checkForArrayError, favoriteSitesSchema } from "../validations";
+import { FavoritesCtx } from "../features/favorites/favoritesContext";
+import { UICtx } from "../features/ui/UIContext";
+import DeleteIcon from "./icons/DeleteIcon";
 
 const recurrencyValues = Array.from(Array(28)).map((_, i) => i + 1);
 
 export default function FavoriteForm() {
   const {
     favoriteSites,
-    onSubmit,
     addFavorite,
     removeFavorite,
     handleRecurrence,
-    toRelative,
-  } = useContext(AppContext);
+    enhanceFormData,
+    setFavoriteSites,
+    setStored,
+  } = useContext(FavoritesCtx);
+
+  const { toRelative, toggleSettings } = useContext(UICtx);
 
   const { register, handleSubmit, errors } = useForm({
     validationSchema: favoriteSitesSchema,
   });
+
+  const onSubmit = (data) => {
+    const enhancedFavoriteSites = enhanceFormData(data.favorites);
+    setFavoriteSites(enhancedFavoriteSites);
+    setStored(enhancedFavoriteSites);
+    toggleSettings();
+  };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -89,12 +101,7 @@ export default function FavoriteForm() {
             </label>
             <label className="two columns">{relativeStr}</label>
             <label className="one columns">
-              <img
-                className="icon-btn"
-                src={DeleteIcon}
-                alt="Delete Icon"
-                onClick={removeFavorite(fav.title)}
-              />
+              <DeleteIcon onClick={removeFavorite(fav.title)} />
             </label>
           </div>
         );
