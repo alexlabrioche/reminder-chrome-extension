@@ -1,9 +1,9 @@
-import React, { useContext } from "react";
-import { UICtx } from "../features/ui/UIContext";
+import React from "react";
+import { useUIContext } from "../features/ui/UIContext";
 import SettingsIcon from "./icons/SettingsIcon";
 
 export default function Menu() {
-  const { toggleSettings, time } = useContext(UICtx);
+  const { toggleSettings, time } = useUIContext();
   return (
     <div className="menu">
       <h5 className="app-title">{time}</h5>

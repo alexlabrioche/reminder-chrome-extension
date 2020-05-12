@@ -1,13 +1,14 @@
 import React from "react";
+import { useUIContext } from "../../features/ui/UIContext";
 
 export default function DeleteIcon({
-  fill = "#fff",
   width = "100%",
   className = "",
   height = "100%",
   viewBox = "0 0 32 32",
   onClick,
 }) {
+  const { darkTheme } = useUIContext();
   return (
     <svg
       width={width}
@@ -19,7 +20,7 @@ export default function DeleteIcon({
       xmlnsXlink="http://www.w3.org/1999/xlink"
     >
       <path
-        fill={fill}
+        fill={darkTheme ? "#F1F1F1" : "#333333"}
         d="M12 11.293l10.293-10.293.707.707-10.293 10.293 10.293 10.293-.707.707-10.293-10.293-10.293 10.293-.707-.707 10.293-10.293-10.293-10.293.707-.707 10.293 10.293z"
       />
     </svg>

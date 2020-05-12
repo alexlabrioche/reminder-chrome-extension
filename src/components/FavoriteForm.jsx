@@ -1,10 +1,10 @@
-import React, { useContext } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import { isEmpty } from "lodash";
 
 import { checkForArrayError, favoriteSitesSchema } from "../validations";
-import { FavoritesCtx } from "../features/favorites/favoritesContext";
-import { UICtx } from "../features/ui/UIContext";
+import { useFavoritesContext } from "../features/favorites/favoritesContext";
+import { useUIContext } from "../features/ui/UIContext";
 import DeleteIcon from "./icons/DeleteIcon";
 
 const recurrencyValues = Array.from(Array(28)).map((_, i) => i + 1);
@@ -18,9 +18,9 @@ export default function FavoriteForm() {
     enhanceFormData,
     setFavoriteSites,
     setStored,
-  } = useContext(FavoritesCtx);
+  } = useFavoritesContext();
 
-  const { toRelative, toggleSettings } = useContext(UICtx);
+  const { toRelative, toggleSettings } = useUIContext();
 
   const { register, handleSubmit, errors } = useForm({
     validationSchema: favoriteSitesSchema,

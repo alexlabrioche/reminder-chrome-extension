@@ -1,9 +1,9 @@
-import React, { useContext } from "react";
+import React from "react";
 import FavoriteItem from "./FavoriteItem";
-import { FavoritesCtx } from "../features/favorites/favoritesContext";
+import { useFavoritesContext } from "../features/favorites/favoritesContext";
 
 export default function Home() {
-  const { toDisplay } = useContext(FavoritesCtx);
+  const { toDisplay } = useFavoritesContext();
   return (
     <div className="home">
       {toDisplay.length > 0 ? (

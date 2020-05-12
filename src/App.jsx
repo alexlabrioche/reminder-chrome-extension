@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import { ThemeProvider } from "styled-components";
 
 import Home from "./components/Home";
@@ -6,10 +6,10 @@ import Menu from "./components/Menu";
 import Settings from "./components/Settings";
 import { dark, light } from "./styles/theme";
 import GlobalStyle from "./styles/global";
-import { UICtx } from "./features/ui/UIContext";
+import { useUIContext } from "./features/ui/UIContext";
 
 function App() {
-  const { showSettings, darkTheme } = useContext(UICtx);
+  const { showSettings, darkTheme } = useUIContext();
   return (
     <ThemeProvider theme={darkTheme ? dark : light}>
       <div className="app">

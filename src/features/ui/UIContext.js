@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect } from "react";
+import React, { createContext, useState, useEffect, useContext } from "react";
 import { DateTime } from "luxon";
 import useLocalStorage from "../../hooks/useLocalStorage";
 
@@ -20,6 +20,8 @@ function toRelativeLocale(days, loc) {
 }
 
 export const UICtx = createContext();
+
+export const useUIContext = () => useContext(UICtx);
 
 export default function UIProvider({ children }) {
   const [locale, setLocale] = useLocalStorage("country", "fr");

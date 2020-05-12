@@ -1,8 +1,8 @@
-import React, { useContext } from "react";
-import { FavoritesCtx } from "../features/favorites/favoritesContext";
+import React from "react";
+import { useFavoritesContext } from "../features/favorites/favoritesContext";
 
 export default function FavoriteItem({ url, title, id }) {
-  const { visitFavorite } = useContext(FavoritesCtx);
+  const { visitFavorite } = useFavoritesContext();
   console.log("id", id);
   const handleClick = (e) => {
     const url = e.target.id;

@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect } from "react";
+import React, { createContext, useState, useEffect, useContext } from "react";
 import { DateTime } from "luxon";
 import id from "uuid/v4";
 import useLocalStorage from "../../hooks/useLocalStorage";
@@ -32,6 +32,8 @@ function favToDisplay(favorites) {
   });
   return toDisplay.slice(0, 3);
 }
+
+export const useFavoritesContext = () => useContext(FavoritesCtx);
 
 export default function FavoritesProvider({ children }) {
   const [stored, setStored] = useLocalStorage("favzz", exampleData);
