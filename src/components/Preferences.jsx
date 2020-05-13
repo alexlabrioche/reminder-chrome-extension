@@ -4,7 +4,6 @@ import { useUIContext } from "../features/ui/UIContext";
 
 export default function LocaleForm() {
   const { setLocale, darkTheme, setDarkTheme, locale } = useUIContext();
-  console.log("locale", locale);
   return (
     <div className="preferences">
       <label>

@@ -2,8 +2,6 @@ import React, { createContext, useState, useEffect, useContext } from "react";
 import useLocalStorage from "../../hooks/useLocalStorage";
 import { now, toRelativeLocale } from "./UIHandlers";
 
-// const isDev = process.env.NODE_ENV === "development";
-
 export const UICtx = createContext();
 export const useUIContext = () => useContext(UICtx);
 

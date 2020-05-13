@@ -1,9 +1,12 @@
 import React, { createContext, useState, useContext } from "react";
 import useLocalStorage from "../../hooks/useLocalStorage";
 import exampleData from "../../assets/favorites";
-import { addEmptyField, favToDisplay, preSave } from "./favoritesHandlers";
-
-// const isDev = process.env.NODE_ENV === "development";
+import {
+  addEmptyField,
+  favToDisplay,
+  preSave,
+  update,
+} from "./favoritesHandlers";
 
 export const FavoritesCtx = createContext();
 export const useFavoritesContext = () => useContext(FavoritesCtx);
@@ -11,8 +14,6 @@ export const useFavoritesContext = () => useContext(FavoritesCtx);
 export default function FavoritesProvider({ children }) {
   const [stored, setStored] = useLocalStorage("favzz", exampleData);
   const [favoriteSites, setFavoriteSites] = useState(stored);
-
-  console.log("stored", stored);
   const toDisplay = () => favToDisplay(favoriteSites);
 
   const addFavorite = () => {
@@ -37,6 +38,9 @@ export default function FavoritesProvider({ children }) {
 
   const visitFavorite = ({ url, id }) => {
     window.open(url);
+    const newFavorites = update(favoriteSites, id);
+    setFavoriteSites(newFavorites);
+    setStored(newFavorites);
   };
 
   const setFavorites = (data) => {
