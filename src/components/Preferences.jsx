@@ -3,10 +3,17 @@ import countries from "../assets/countries";
 import { useUIContext } from "../features/ui/UIContext";
 
 export default function LocaleForm() {
-  const { setLocale, darkTheme, setDarkTheme, locale } = useUIContext();
+  const {
+    setLocale,
+    darkTheme,
+    setDarkTheme,
+    locale,
+    quote,
+    setQuote,
+  } = useUIContext();
   return (
-    <div className="preferences">
-      <label>
+    <div className="row preferences">
+      <label className="four columns">
         <select
           name={`locale`}
           defaultValue={locale}
@@ -25,7 +32,15 @@ export default function LocaleForm() {
           checked={darkTheme}
           onChange={(e) => setDarkTheme(e.target.checked)}
         />
-        <span className="label-body">dark theme</span>
+        <span className="label-body">Dark</span>
+      </label>
+      <label>
+        <input
+          type="checkbox"
+          checked={quote}
+          onChange={(e) => setQuote(e.target.checked)}
+        />
+        <span className="label-body">Quotes</span>
       </label>
     </div>
   );

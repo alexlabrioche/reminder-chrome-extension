@@ -8,6 +8,7 @@ export const useUIContext = () => useContext(UICtx);
 export default function UIProvider({ children }) {
   const [locale, setLocale] = useLocalStorage("country", "fr");
   const [darkTheme, setDarkTheme] = useLocalStorage("theme", true);
+  const [quote, setQuote] = useLocalStorage("quote", true);
   const [settings, setsettings] = useState(false);
   const [time, setTime] = useState(now(locale));
 
@@ -34,6 +35,8 @@ export default function UIProvider({ children }) {
         darkTheme,
         setDarkTheme,
         locale,
+        quote,
+        setQuote,
       }}
     >
       {children}

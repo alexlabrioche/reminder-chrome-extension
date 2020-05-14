@@ -255,6 +255,7 @@ p {
 }
 .preferences {
   width: 100%;
+  margin-bottom: 3rem;
   display: flex;
   flex-direction: row;
   justify-content: start;
@@ -272,9 +273,12 @@ p {
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 a {
   color: ${(p) => p.theme.primary};
+  text-decoration: none;
 }
 a:hover {
   color: ${(p) => p.theme.hovered};
+  text-decoration: underline;
+
 }
 
 /* Buttons
@@ -355,6 +359,7 @@ input[type="password"],
 textarea,
 select {
   height: 38px;
+  width:100%;
   padding: 6px 10px; /* The 6px vertically centers text on FF, ignored by Webkit */
   background-color: transparent;
   border: 1px solid ${(p) => p.theme.selectBorder};
@@ -507,6 +512,7 @@ hr {
 }
 .svg-icon {
   cursor: pointer;
+  margin: 0;
 }
 .fav-item {
   cursor: pointer;

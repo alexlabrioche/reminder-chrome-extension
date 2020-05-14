@@ -36,7 +36,7 @@ export default function FavoriteForm() {
         const relativeStr = toRelative(fav.recurrence);
         return (
           <div
-            className="row field-form"
+            className="row form-field"
             key={index}
             style={{
               display: "flex",
@@ -96,8 +96,12 @@ export default function FavoriteForm() {
               })}
             </label>
             <label className="two columns">{relativeStr}</label>
-            <label className="one columns">
-              <DeleteIcon onClick={removeFavorite(fav.title)} />
+            <label className="one columns form-icon">
+              <DeleteIcon
+                height="32px"
+                width="32px"
+                onClick={removeFavorite(fav.title)}
+              />
             </label>
           </div>
         );
@@ -109,7 +113,7 @@ export default function FavoriteForm() {
         disabled={!isEmpty(errors)}
         style={{ marginRight: "30px", marginTop: "30px" }}
       >
-        Ajouter
+        ADD
       </button>
       {isEmpty(errors) && (
         <input type="submit" className="button-primary" value="Valider" />

@@ -1,9 +1,12 @@
 import React from "react";
 import FavoriteItem from "./FavoriteItem";
 import { useFavoritesContext } from "../features/favorites/favoritesContext";
+import Quote from "./Quote";
+import { useUIContext } from "../features/ui/UIContext";
 
 export default function Home() {
   const { favorites } = useFavoritesContext();
+  const { quote } = useUIContext();
   return (
     <div className="home">
       {favorites.length > 0 ? (
@@ -12,9 +15,9 @@ export default function Home() {
             <FavoriteItem key={index} {...fav} />
           ))}
         </ol>
-      ) : (
-        <h6>Aucun favoris à visiter pour le moment...</h6>
-      )}
+      ) : quote ? (
+        <Quote />
+      ) : null}
     </div>
   );
 }
