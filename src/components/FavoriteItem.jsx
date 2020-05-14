@@ -7,8 +7,8 @@ export default function FavoriteItem({ url, title, id }) {
     visitFavorite({ url, id });
   };
   return (
-    <li className="fav-item" id={url} onClick={handleClick}>
+    <h5 className="fav-item" id={url} onClick={handleClick}>
       {title}
-    </li>
+    </h5>
   );
 }

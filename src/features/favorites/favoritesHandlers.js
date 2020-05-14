@@ -27,7 +27,7 @@ export function update(favorites, IdToUpdate) {
     fav.id === IdToUpdate
       ? {
           ...fav,
-          remindIn: remindIn(fav.recurrence),
+          remindIn: remindIn(fav.recurrence + 1),
         }
       : fav
   );

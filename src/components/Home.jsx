@@ -10,11 +10,9 @@ export default function Home() {
   return (
     <div className="home">
       {favorites.length > 0 ? (
-        <ol>
-          {favorites.slice(0, reminderCount).map((fav, index) => (
-            <FavoriteItem key={index} {...fav} />
-          ))}
-        </ol>
+        favorites
+          .slice(0, reminderCount)
+          .map((fav, index) => <FavoriteItem key={index} {...fav} />)
       ) : quote ? (
         <Quote />
       ) : null}

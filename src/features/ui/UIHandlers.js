@@ -18,7 +18,3 @@ export function now(locale = "fr", full = true) {
         }
   );
 }
-
-export function toRelativeLocale(days, loc) {
-  return DateTime.local().plus({ days }).toRelativeCalendar({ locale: loc });
-}

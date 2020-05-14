@@ -7,7 +7,7 @@ export default function Menu() {
   return (
     <div className="menu">
       <h5 className="app-title">{time}</h5>
-      <SettingsIcon width="36px" onClick={toggleSettings} />
+      <SettingsIcon width="24px" onClick={toggleSettings} />
     </div>
   );
 }

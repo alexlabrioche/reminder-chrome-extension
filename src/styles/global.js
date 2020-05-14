@@ -518,7 +518,7 @@ hr {
   cursor: pointer;
 }
 .fav-item:hover {
-  text-decoration: underline 1px ${(p) => p.theme.baseFont};
+  color: ${(p) => p.theme.primary};
 }
 .app-title {
   margin: 0;

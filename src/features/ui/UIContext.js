@@ -1,6 +1,6 @@
 import React, { createContext, useState, useEffect, useContext } from "react";
 import useLocalStorage from "../../hooks/useLocalStorage";
-import { now, toRelativeLocale } from "./UIHandlers";
+import { now } from "./UIHandlers";
 
 export const UICtx = createContext();
 export const useUIContext = () => useContext(UICtx);
@@ -24,7 +24,6 @@ export default function UIProvider({ children }) {
 
   const toggleSettings = () => setsettings(!settings);
   const localeRef = React.useRef();
-  const toRelative = (days) => toRelativeLocale(days, locale);
 
   return (
     <UICtx.Provider
@@ -32,7 +31,6 @@ export default function UIProvider({ children }) {
         settings,
         toggleSettings,
         time,
-        toRelative,
         setLocale,
         darkTheme,
         setDarkTheme,

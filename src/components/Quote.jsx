@@ -11,16 +11,11 @@ export default function Quote() {
   )}`;
 
   return (
-    <div>
+    <>
       <h5>{quote.t}</h5>
-      <a
-        className="offset-by-nine columns"
-        href={wikiUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
+      <a href={wikiUrl} target="_blank" rel="noopener noreferrer">
         <i>{quote.a}</i>
       </a>
-    </div>
+    </>
   );
 }

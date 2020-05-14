@@ -1,13 +1,12 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { isEmpty } from "lodash";
+import { DateTime } from "luxon";
 
 import { checkForArrayError, favoriteSitesSchema } from "../validations";
 import { useFavoritesContext } from "../features/favorites/favoritesContext";
 import { useUIContext } from "../features/ui/UIContext";
 import DeleteIcon from "./icons/DeleteIcon";
-
-const recurrencyValues = Array.from(Array(28)).map((_, i) => i + 1);
 
 export default function FavoriteForm() {
   const {
@@ -17,8 +16,17 @@ export default function FavoriteForm() {
     handleRecurrence,
     setFavorites,
   } = useFavoritesContext();
+  const { toggleSettings, locale } = useUIContext();
 
-  const { toRelative, toggleSettings } = useUIContext();
+  const label = (days) =>
+    days === 0
+      ? DateTime.local().plus({ days }).toRelativeCalendar({ locale })
+      : DateTime.local().plus({ days }).toRelative({ locale });
+
+  const recurrencyValues = Array.from(Array(15)).map((_, index) => ({
+    val: index,
+    label: label(index),
+  }));
 
   const { register, handleSubmit, errors } = useForm({
     validationSchema: favoriteSitesSchema,
@@ -33,7 +41,6 @@ export default function FavoriteForm() {
     <form onSubmit={handleSubmit(onSubmit)}>
       {allFavorites.map((fav, index) => {
         const fieldName = `favorites[${index}]`;
-        const relativeStr = toRelative(fav.recurrence);
         return (
           <div
             className="row form-field"
@@ -74,7 +81,7 @@ export default function FavoriteForm() {
                 field: "url",
               })}
             </label>
-            <label className="one columns">
+            <label className="three columns">
               <select
                 name={`${fieldName}.recurrence`}
                 defaultValue={fav.recurrence}
@@ -82,9 +89,9 @@ export default function FavoriteForm() {
                 onChange={handleRecurrence}
                 ref={register}
               >
-                {recurrencyValues.map((n) => (
-                  <option key={n} value={n}>
-                    {n}
+                {recurrencyValues.map((item) => (
+                  <option key={item.val} value={item.val}>
+                    {item.label}
                   </option>
                 ))}
               </select>
@@ -95,11 +102,11 @@ export default function FavoriteForm() {
                 field: "recurrence",
               })}
             </label>
-            <label className="two columns">{relativeStr}</label>
+            {/* <label className="two columns">{relativeStr}</label> */}
             <label className="one columns form-icon">
               <DeleteIcon
-                height="32px"
-                width="32px"
+                height="16px"
+                width="16px"
                 onClick={removeFavorite(fav.title)}
               />
             </label>
@@ -116,7 +123,7 @@ export default function FavoriteForm() {
         ADD
       </button>
       {isEmpty(errors) && (
-        <input type="submit" className="button-primary" value="Valider" />
+        <input type="submit" className="button-primary" value="OK" />
       )}
     </form>
   );
