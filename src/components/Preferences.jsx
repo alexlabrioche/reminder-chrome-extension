@@ -2,6 +2,8 @@ import React from "react";
 import countries from "../assets/countries";
 import { useUIContext } from "../features/ui/UIContext";
 
+const reminderValues = Array.from(Array(5)).map((_, i) => i + 1);
+
 export default function LocaleForm() {
   const {
     setLocale,
@@ -10,10 +12,26 @@ export default function LocaleForm() {
     locale,
     quote,
     setQuote,
+    fullDate,
+    setFullDate,
+    reminderCount,
+    setReminderCount,
   } = useUIContext();
   return (
     <div className="row preferences">
-      <label className="four columns">
+      <label className="two columns">
+        <select
+          value={reminderCount}
+          onChange={(e) => setReminderCount(e.target.value)}
+        >
+          {reminderValues.map((n) => (
+            <option key={n} value={n}>
+              {`${n} reminder${n === 1 ? "" : "s"}`}
+            </option>
+          ))}
+        </select>
+      </label>
+      <label className="three columns">
         <select
           name={`locale`}
           defaultValue={locale}
@@ -41,6 +59,14 @@ export default function LocaleForm() {
           onChange={(e) => setQuote(e.target.checked)}
         />
         <span className="label-body">Quotes</span>
+      </label>
+      <label>
+        <input
+          type="checkbox"
+          checked={fullDate}
+          onChange={(e) => setFullDate(e.target.checked)}
+        />
+        <span className="label-body">Full Date</span>
       </label>
     </div>
   );

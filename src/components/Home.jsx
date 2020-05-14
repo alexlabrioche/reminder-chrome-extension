@@ -6,12 +6,12 @@ import { useUIContext } from "../features/ui/UIContext";
 
 export default function Home() {
   const { favorites } = useFavoritesContext();
-  const { quote } = useUIContext();
+  const { quote, reminderCount } = useUIContext();
   return (
     <div className="home">
       {favorites.length > 0 ? (
         <ol>
-          {favorites.map((fav, index) => (
+          {favorites.slice(0, reminderCount).map((fav, index) => (
             <FavoriteItem key={index} {...fav} />
           ))}
         </ol>

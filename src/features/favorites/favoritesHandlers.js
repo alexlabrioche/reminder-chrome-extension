@@ -41,5 +41,5 @@ export function favToDisplay(favorites) {
       toDisplay.push(fav);
     }
   });
-  return toDisplay.slice(0, 3);
+  return toDisplay;
 }
